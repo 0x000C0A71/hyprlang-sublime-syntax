@@ -1,0 +1,75 @@
+%YAML 1.2
+---
+file_extensions:
+  - hypr
+  - hyprland.conf
+  - hyprpaper.conf
+  - hypridle.conf
+  - hyprlock.conf
+  - hyprlandd.conf
+  - xdph.conf
+scope: source.hypr
+contexts:
+  main:
+    - include: common
+
+    - match: '^\s*[a-z_-][a-z0-9_-]*(?=\s*\{)'
+      scope: entity.name.namespace.hyprlang
+
+    - match: '\b[a-z_-][a-z0-9_-]*\b'
+      scope: entity.name.tag.hyprlang
+
+    - match: '='
+      scope: punctuation.definition.key-value.hyprlang
+      push: values
+
+  values:
+    - include: common
+
+    - match: '\brgba(?=\()'
+      scope: support.function.color.hyprlang
+      push: rgba_color
+
+    - match: '\b(true|yes)\b'
+      scope: constant.language.boolean.true.hyprlang
+
+    - match: '\b(false|no)\b'
+      scope: constant.language.boolean.false.hyprlang
+
+    - match: '\b0x[0-9a-fA-F]+\b'
+      scope: constant.numeric.hex-value.hyprlang
+
+    - match: '\b(-)?[0-9]+(\.[0-9]+)?\b'
+      scope: constant.numeric.hyprlang
+
+    - match: ','
+      scope: punctuation.separator.sequence.hyprlang
+
+    - match: '(\b|(?<=\s))[^\s,]+(\b|\s)'
+      scope: string.unquoted.hyprlang
+
+    - match: $
+      pop: true
+
+  common:
+    - match: '#'
+      scope: punctuation.definition.comment.hyprlang
+      push: line_comment
+
+    - match: '\$[a-zA-Z_][a-zA-Z0-9_-]*\b'
+      scope: variable.other.constant.hyprlang
+
+  rgba_color:
+    - match: '\b[a-fA-F0-9]{8}\b'
+      scope: constant.other.color.hex-value.hyprlang
+
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.hyprlang
+
+    - match: '\)'
+      pop: true
+
+  line_comment:
+    - meta_scope: comment.line.hyprlang
+    - match: $
+      pop: true
