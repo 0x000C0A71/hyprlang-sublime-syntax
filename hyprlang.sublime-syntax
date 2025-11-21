@@ -2,11 +2,15 @@
 ---
 file_extensions:
   - hypr
+  - hl
   - hyprland.conf
   - hyprpaper.conf
   - hypridle.conf
   - hyprlock.conf
   - hyprlandd.conf
+  - hyprlauncher.conf
+  - hyprsunset.conf
+  - hyprtoolkit.conf
   - xdph.conf
 scope: source.hypr
 contexts:
